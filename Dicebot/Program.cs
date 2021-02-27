@@ -29,7 +29,7 @@ namespace Dicebot
       _services = new ServiceCollection().BuildServiceProvider();
       _client.MessageReceived += CommandRecieved;
       //次の行に書かれているstring token = "hoge"に先程取得したDiscordTokenを指定する。
-      string token = "ODEzNjYyNDQyNTc0OTcwODgw.YDSkMw.JWmRQ3RWCSIankmVBYPA31fJBHc";
+      string token = "";
       await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
       await _client.LoginAsync(TokenType.Bot, token);
       await _client.StartAsync();
