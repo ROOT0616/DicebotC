@@ -28,7 +28,7 @@ namespace Dicebot
       _services = new ServiceCollection().BuildServiceProvider();
       _client.MessageReceived += CommandRecieved;
       //次の行に書かれているstring token = "hoge"に先程取得したDiscordTokenを指定する。
-      string token = "ODEzNjYyNDQyNTc0OTcwODgw.YDSkMw.K5rIoXsKfayK9PmrckR5SSeHn3E";
+      string token = "";
       await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
       await _client.LoginAsync(TokenType.Bot, token);
       await _client.StartAsync();
@@ -90,17 +90,17 @@ namespace Dicebot
             string ClearTimes = CommandContext.Substring(CommandContext.IndexOf("t") + 1);
 
             //難易度がダイス面より大きい場合
-            if (!(int.Parse(ClearNum)< int.Parse(DiceNum) + 1))
+            if (!(int.Parse(ClearNum) < int.Parse(DiceNum) + 1))
               return;
             //成功地がダイスを振る回数より大きいとき
-            if (!(int.Parse(ClearTimes)< int.Parse(NumTimes) + 1))
+            if (!(int.Parse(ClearTimes) < int.Parse(NumTimes) + 1))
               return;
 
-            await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + DiceNum + "面ダイスを" + NumTimes + "回ふります。" + "成功値" + ClearNum + "の成功度" + ClearTimes + "です。");
-
+            string m0 = "";
+            //await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + DiceNum + "面ダイスを" + NumTimes + "回ふります。" + "成功値" + ClearNum + "の成功度" + ClearTimes + "です。");
+            m0 += $"<@{id}>" + "　:　" + DiceNum + "面ダイスを" + NumTimes + "回ふります。" + "成功値" + ClearNum + "の成功度" + ClearTimes + "です。";
             int j = 0;
             int seed = Environment.TickCount;
-
             for (int i = 0; i < int.Parse(NumTimes); i++)
             {
               Random rnd = new Random(seed++);
@@ -108,10 +108,12 @@ namespace Dicebot
               if (int.Parse(m1) >= int.Parse(ClearNum))
               {
                 j++;
-                await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + j.ToString() + "回目の成功：" + m1);
+                //await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + j.ToString() + "回目の成功：" + m1);
+                m0 += $"<@{id}>" + "　:　" + j.ToString() + "回目の成功：" + m1 + "\n";
                 if (j == int.Parse(ClearTimes))
                 {
-                  await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + "成功度" +  j.ToString() + "をクリアしたのでダイスを止めます。");
+                  //await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + "成功度" + j.ToString() + "をクリアしたのでダイスを止めます。");
+                  m0 += $"<@{id}>" + "　:　" + "成功度" + j.ToString() + "をクリアしたのでダイスを止めます。" + "\n";
                   //j成功値に達するとfor文から脱出
                   if (j == int.Parse(ClearTimes))
                     break;
@@ -119,9 +121,11 @@ namespace Dicebot
               }
               else
               {
-                await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + "失敗：" + m1);
+                m0 += $"<@{id}>" + "　:　" + "失敗：" + m1 + "\n";
+                //await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + "失敗：" + m1);
               }
             }
+            await message.Channel.SendMessageAsync(m0);
           }
         }
       }
