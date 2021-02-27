@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using Discord;
@@ -28,7 +29,7 @@ namespace Dicebot
       _services = new ServiceCollection().BuildServiceProvider();
       _client.MessageReceived += CommandRecieved;
       //次の行に書かれているstring token = "hoge"に先程取得したDiscordTokenを指定する。
-      string token = "";
+      string token = "ODEzNjYyNDQyNTc0OTcwODgw.YDSkMw.JWmRQ3RWCSIankmVBYPA31fJBHc";
       await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
       await _client.LoginAsync(TokenType.Bot, token);
       await _client.StartAsync();
@@ -84,172 +85,173 @@ namespace Dicebot
       }
       string Inf_dice()
       {
-        string tag
-        m1 = Random_basic("6")
-        m2 = Random_basic("6")
+        string tag = "error";
+        int m1 = Random_basic("6");
+        seed++;
+        int m2 = Random_basic("6");
         if (m1 == 1)
         {
           if (m2 == 1)
           {
-            tag = "event"
+            tag = "event";
           }
           if (m2 == 2)
           {
-            tag = "エクストリーム"
+            tag = "エクストリーム";
           }
           if (m2 == 3)
           {
-            tag = "かわいい"
+            tag = "かわいい";
           }
           if (m2 == 4)
           {
-            tag = "とんでも"
+            tag = "とんでも";
           }
           if (m2 == 5)
           {
-            tag = "マニア"
+            tag = "マニア";
           }
           if (m2 == 6)
           {
-            tag = "オタク"
+            tag = "オタク";
           }
         }
         if (m1 == 2)
         {
           if (m2 == 1)
           {
-            tag = "音楽"
+            tag = "音楽";
           }
           if (m2 == 2)
           {
-            tag = "好きなタグ"
+            tag = "好きなタグ";
           }
           if (m2 == 3)
           {
-            tag = "トレンド"
+            tag = "トレンド";
           }
           if (m2 == 4)
           {
-            tag = "読書"
+            tag = "読書";
           }
           if (m2 == 5)
           {
-            tag = "パフォーマンス"
+            tag = "パフォーマンス";
           }
           if (m2 == 6)
           {
-            tag = "美術"
+            tag = "美術";
           }
         }
         if (m1 == 3)
         {
           if (m2 == 1)
           {
-            tag = "あらさがし"
+            tag = "あらさがし";
           }
           if (m2 == 2)
           {
-            tag = "おせっかい"
+            tag = "おせっかい";
           }
           if (m2 == 3)
           {
-            tag = "好きなタグ"
+            tag = "好きなタグ";
           }
           if (m2 == 4)
           {
-            tag = "家事"
+            tag = "家事";
           }
           if (m2 == 5)
           {
-            tag = "がり勉"
+            tag = "がり勉";
           }
           if (m2 == 6)
           {
-            tag = "健康"
+            tag = "健康";
           }
         }
         if (m1 == 4)
         {
           if (m2 == 1)
           {
-            tag = "アウトドア"
+            tag = "アウトドア";
           }
           if (m2 == 2)
           {
-            tag = "工作"
+            tag = "工作";
           }
           if (m2 == 3)
           {
-            tag = "スポーツ"
+            tag = "スポーツ";
           }
           if (m2 == 4)
           {
-            tag = "同一のタグ"
+            tag = "同一のタグ";
           }
           if (m2 == 5)
           {
-            tag = "ハイソ"
+            tag = "ハイソ";
           }
           if (m2 == 6)
           {
-            tag = "旅行"
+            tag = "旅行";
           }
         }
         if (m1 == 5)
         {
           if (m2 == 1)
           {
-            tag = "育成"
+            tag = "育成";
           }
           if (m2 == 2)
           {
-            tag = "サビシガリ"
+            tag = "サビシガリ";
           }
           if (m2 == 3)
           {
-            tag = "暇つぶし"
+            tag = "暇つぶし";
           }
           if (m2 == 4)
           {
-            tag = "宗教"
+            tag = "宗教";
           }
           if (m2 == 5)
           {
-            tag = "同一のタグ"
+            tag = "同一のタグ";
           }
           if (m2 == 6)
           {
-            tag = "ワビサビ"
+            tag = "ワビサビ";
           }
         }
         if (m1 == 6)
         {
           if (m2 == 1)
           {
-            tag = "アダルト"
+            tag = "アダルト";
           }
           if (m2 == 2)
           {
-            tag = "飲食"
+            tag = "飲食";
           }
           if (m2 == 3)
           {
-            tag = "ギャンブル"
+            tag = "ギャンブル";
           }
           if (m2 == 4)
           {
-            tag = "ゴシップ"
+            tag = "ゴシップ";
           }
           if (m2 == 5)
           {
-            tag = "ファッション"
+            tag = "ファッション";
           }
           if (m2 == 6)
           {
-            tag = "happening"
+            tag = "happening";
           }
         }
-        return tag
+        return tag;
       }
 
       // コマンド("!d")かどうか判定
@@ -289,7 +291,7 @@ namespace Dicebot
             await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + DiceNum + "面ダイスを" + NumTimes + "回ふります。" + "成功値" + ClearNum + "の成功度" + ClearTimes + "です。");
 
             int j = 0;
-            int seed = Environment.TickCount;
+
 
             for (int i = 0; i < int.Parse(NumTimes); i++)
             {
@@ -343,22 +345,24 @@ namespace Dicebot
         {
           if (CommandContext.Substring(4) == "")
           {
-            NumTimes = 1;
+            NumTimes = "1";
           }
           else
           {
-            NumTimes = CommandContext.IndexOf(4);
+            NumTimes = CommandContext.Substring(4);
           }
           for (int i = 0; i < int.Parse(NumTimes); i++)
           {
-            tag = Inf_dice()
+            seed++;
+            string tag;
+            tag = Inf_dice();
             if (tag == "event")
             {
-              await message.Channel.SendMessageAsync($"<@{id}>" + "　:　情報イベント発生！！")
+              await message.Channel.SendMessageAsync($"<@{id}>" + "　:　情報イベント発生！！");
             }
-            else if (tag = "happening")
+            else if (tag == "happening")
             {
-              await message.Channel.SendMessageAsync($"<@{id}>" + "　:情報ハプニング発生！！")
+              await message.Channel.SendMessageAsync($"<@{id}>" + "　:情報ハプニング発生！！");
             }
             else
             {
