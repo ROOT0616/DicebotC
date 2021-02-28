@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using Discord;
@@ -60,6 +61,27 @@ namespace Dicebot
 
       //ここから記述--------------------------------------------------------------------------
       var CommandContext = message.Content;
+      string DiceNum;//ダイスの面の数
+      string NumTimes;//ダイスを振る回数
+      string ClearNum;//危険度
+      string ClearTimes;//難易度
+      int seed = Environment.TickCount;
+
+      int Random_basic(string DiceNum)
+      {
+        Random rnd = new Random(seed++);
+        int m1 = rnd.Next(1, int.Parse(DiceNum) + 1);
+        return m1;
+      }
+      int List_Sum(List<int> list1)
+      {
+        int num = 0;
+        for (int i = 0; i < list1.Count; i++)
+        {
+          num += list1[i];
+        }
+        return num;
+      }
 
       // コマンド("!d")かどうか判定
       if (CommandContext.Substring(0, 2) == "!d")
@@ -75,7 +97,7 @@ namespace Dicebot
           if (!(CommandContext.IndexOf("n") - 2 > 0))
             return;
 
-          string NumTimes = CommandContext.Substring(2, CommandContext.IndexOf("n") - 2);
+          NumTimes = CommandContext.Substring(2, CommandContext.IndexOf("n") - 2);
           if (!(int.Parse(NumTimes) < 11))
           {
             await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + "10回以下でお願いします");
@@ -83,11 +105,11 @@ namespace Dicebot
           else
           {
             //DiceNumはダイスの面の数
-            string DiceNum = CommandContext.Substring(CommandContext.IndexOf("n") + 1, CommandContext.IndexOf("c") - CommandContext.IndexOf("n") - 1);
+            DiceNum = CommandContext.Substring(CommandContext.IndexOf("n") + 1, CommandContext.IndexOf("c") - CommandContext.IndexOf("n") - 1);
             //ClearNumは成功値
-            string ClearNum = CommandContext.Substring(CommandContext.IndexOf("c") + 1, CommandContext.IndexOf("t") - CommandContext.IndexOf("c") - 1);
+            ClearNum = CommandContext.Substring(CommandContext.IndexOf("c") + 1, CommandContext.IndexOf("t") - CommandContext.IndexOf("c") - 1);
             //ClearTimesは成功度
-            string ClearTimes = CommandContext.Substring(CommandContext.IndexOf("t") + 1);
+            ClearTimes = CommandContext.Substring(CommandContext.IndexOf("t") + 1);
 
             //難易度がダイス面より大きい場合
             if (!(int.Parse(ClearNum) < int.Parse(DiceNum) + 1))
@@ -100,7 +122,7 @@ namespace Dicebot
             //await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + DiceNum + "面ダイスを" + NumTimes + "回ふります。" + "成功値" + ClearNum + "の成功度" + ClearTimes + "です。");
             m0 += $"<@{id}>" + "　:　" + DiceNum + "面ダイスを" + NumTimes + "回ふります。" + "成功値" + ClearNum + "の成功度" + ClearTimes + "です。";
             int j = 0;
-            int seed = Environment.TickCount;
+            seed = Environment.TickCount;
             for (int i = 0; i < int.Parse(NumTimes); i++)
             {
               Random rnd = new Random(seed++);
@@ -121,9 +143,11 @@ namespace Dicebot
               }
               else
               {
-                await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + "失敗：" + m1);
+                m0 += $"<@{id}>" + "　:　" + "失敗：" + m1 + "\n";
+                //await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + "失敗：" + m1);
               }
             }
+            await message.Channel.SendMessageAsync(m0);
           }
         }
       }
@@ -145,42 +169,6 @@ namespace Dicebot
           await message.Channel.SendMessageAsync($"<@{id}>" + "　:　出目は" + s + "で、それらの和は" + List_Sum(ms) + "です");
         }
       }
-      if (CommandContext.Substring(0, 2) == "!i")
-      {
-        if (CommandContext.Substring(3, 1) == "r")
-        {
-          if (CommandContext.Substring(4) == "")
-          {
-            NumTimes = "1";
-          }
-          else
-          {
-            NumTimes = CommandContext.Substring(4);
-          }
-          for (int i = 0; i < int.Parse(NumTimes); i++)
-          {
-            seed++;
-            string tag;
-            tag = Inf_dice();
-            if (tag == "event")
-            {
-              await message.Channel.SendMessageAsync($"<@{id}>" + "　:　情報イベント発生！！");
-            }
-            else if (tag == "happening")
-            {
-              await message.Channel.SendMessageAsync($"<@{id}>" + "　:情報ハプニング発生！！");
-            }
-            else
-            {
-              await message.Channel.SendMessageAsync($"<@{id}>" + "　:　得られた情報タグは「" + tag + "」でした");
-            }
-          }
-        }
-              await message.Channel.SendMessageAsync($"<@{id}>" + "　:　得られた情報タグは「" + tag + "」でした");
-            }
-          }
-        }
-
     }
 
     private Task Log(LogMessage message)
