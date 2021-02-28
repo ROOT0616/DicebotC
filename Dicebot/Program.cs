@@ -121,15 +121,65 @@ namespace Dicebot
               }
               else
               {
-                m0 += $"<@{id}>" + "　:　" + "失敗：" + m1 + "\n";
-                //await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + "失敗：" + m1);
+                await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + "失敗：" + m1);
               }
             }
-            await message.Channel.SendMessageAsync(m0);
           }
         }
       }
 
+      ////////////////////////////////////////////////////////////////////////////
+      if (CommandContext.Substring(0, 2) == "!r")
+      {
+        if (!(CommandContext.Substring(2) == ""))
+        {
+          NumTimes = CommandContext.Substring(2, CommandContext.IndexOf("d") - 2);
+          DiceNum = CommandContext.Substring(CommandContext.IndexOf("d") + 1);
+          await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + DiceNum + "面ダイスを" + NumTimes + "回振ります");
+          List<int> ms = new List<int>();
+          for (int i = 0; i < int.Parse(NumTimes); i++)
+          {
+            ms.Add(Random_basic(DiceNum));
+          }
+          var s = String.Join(",", ms);
+          await message.Channel.SendMessageAsync($"<@{id}>" + "　:　出目は" + s + "で、それらの和は" + List_Sum(ms) + "です");
+        }
+      }
+      if (CommandContext.Substring(0, 2) == "!i")
+      {
+        if (CommandContext.Substring(3, 1) == "r")
+        {
+          if (CommandContext.Substring(4) == "")
+          {
+            NumTimes = "1";
+          }
+          else
+          {
+            NumTimes = CommandContext.Substring(4);
+          }
+          for (int i = 0; i < int.Parse(NumTimes); i++)
+          {
+            seed++;
+            string tag;
+            tag = Inf_dice();
+            if (tag == "event")
+            {
+              await message.Channel.SendMessageAsync($"<@{id}>" + "　:　情報イベント発生！！");
+            }
+            else if (tag == "happening")
+            {
+              await message.Channel.SendMessageAsync($"<@{id}>" + "　:情報ハプニング発生！！");
+            }
+            else
+            {
+              await message.Channel.SendMessageAsync($"<@{id}>" + "　:　得られた情報タグは「" + tag + "」でした");
+            }
+          }
+        }
+              await message.Channel.SendMessageAsync($"<@{id}>" + "　:　得られた情報タグは「" + tag + "」でした");
+            }
+          }
+        }
 
     }
 
