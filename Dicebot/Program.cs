@@ -89,23 +89,53 @@ namespace Dicebot
 
         if (CommandContext.Substring(2) == "")
         {
-          await message.Channel.SendMessageAsync("説明を");
+          string help = $"<@{id}>" + "　:「!d」の使い方説明\n";
+          help += "!d3の場合、dの後の3はダイス面になり、3面ダイスを1回ふることになります。\n" +
+            "!d3 n4の場合、nの後の4は振る回数になり、3面ダイスを4回ふることになります。\n" +
+            "!d3 n4 c1 t1の場合、cの後の数字は成功値、tの後の数字は成功度となります。";
+          await message.Channel.SendMessageAsync(help);
         }
-
-        if (CommandContext.Substring(2) != "")
+        else if (CommandContext.Substring(2) != "")
         {
-          if (!(CommandContext.IndexOf("n") - 2 > 0))
-            return;
 
-          NumTimes = CommandContext.Substring(2, CommandContext.IndexOf("n") - 2);
-          if (!(int.Parse(NumTimes) < 11))
+          if (int.TryParse(CommandContext.Substring(2), out int DiceNum1))
+          {
+            seed = Environment.TickCount;
+            Random rnd = new Random(seed++);
+            string m0 = "";
+            string m1 = rnd.Next(1, DiceNum1 + 1).ToString();
+            m0 += $"<@{id}>" + "　:　" + DiceNum1 + "面ダイス" + "　:　" + m1 + "\n";
+            await message.Channel.SendMessageAsync(m0);
+          }
+          else if (int.TryParse(CommandContext.Substring(CommandContext.IndexOf("n") + 1), out int NumTimes1) && NumTimes1 > 10)
+          {
+            await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + "10回以下でお願いします");
+          }
+          else if (int.TryParse(CommandContext.Substring(CommandContext.IndexOf("n") + 1), out NumTimes1))
+          {
+            //ダイスの面の数
+            DiceNum = CommandContext.Substring(2, CommandContext.IndexOf("n") - 2);
+            seed = Environment.TickCount;
+            string m0 = "";
+            m0 += $"<@{id}>" + "　:　" + DiceNum + "面ダイスを" + NumTimes1 + "回ふります。" + "\n";
+            for (int i = 0; i < NumTimes1; i++)
+            {
+              Random rnd = new Random(seed++);
+              string m1 = rnd.Next(1, int.Parse(DiceNum) + 1).ToString();
+              m0 += $"<@{id}>" + "　:　" + (i + 1).ToString() + "　:　"  + m1 + "\n";
+            }
+            await message.Channel.SendMessageAsync(m0);
+          }
+          else if (!(int.Parse(CommandContext.Substring(CommandContext.IndexOf("n") + 1, CommandContext.IndexOf("c") - CommandContext.IndexOf("n") - 1)) < 11))
           {
             await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + "10回以下でお願いします");
           }
           else
           {
-            //DiceNumはダイスの面の数
-            DiceNum = CommandContext.Substring(CommandContext.IndexOf("n") + 1, CommandContext.IndexOf("c") - CommandContext.IndexOf("n") - 1);
+            //ダイスの面の数
+            DiceNum = CommandContext.Substring(2, CommandContext.IndexOf("n") - 2);
+            //ダイスを振る回数
+            NumTimes = CommandContext.Substring(CommandContext.IndexOf("n") + 1, CommandContext.IndexOf("c") - CommandContext.IndexOf("n") - 1);
             //ClearNumは成功値
             ClearNum = CommandContext.Substring(CommandContext.IndexOf("c") + 1, CommandContext.IndexOf("t") - CommandContext.IndexOf("c") - 1);
             //ClearTimesは成功度
@@ -119,8 +149,7 @@ namespace Dicebot
               return;
 
             string m0 = "";
-            //await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + DiceNum + "面ダイスを" + NumTimes + "回ふります。" + "成功値" + ClearNum + "の成功度" + ClearTimes + "です。");
-            m0 += $"<@{id}>" + "　:　" + DiceNum + "面ダイスを" + NumTimes + "回ふります。" + "成功値" + ClearNum + "の成功度" + ClearTimes + "です。";
+            m0 += $"<@{id}>" + "　:　" + DiceNum + "面ダイスを" + NumTimes + "回ふります。" + "成功値" + ClearNum + "の成功度" + ClearTimes + "です。\n";
             int j = 0;
             seed = Environment.TickCount;
             for (int i = 0; i < int.Parse(NumTimes); i++)
@@ -130,11 +159,9 @@ namespace Dicebot
               if (int.Parse(m1) >= int.Parse(ClearNum))
               {
                 j++;
-                //await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + j.ToString() + "回目の成功：" + m1);
-                m0 += $"<@{id}>" + "　:　" + j.ToString() + "回目の成功：" + m1 + "\n";
+                m0 += $"<@{id}>" + "　:　" + (i + 1).ToString() + "　:　" + j.ToString() + "回目の成功：" + m1 + "\n";
                 if (j == int.Parse(ClearTimes))
                 {
-                  //await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + "成功度" + j.ToString() + "をクリアしたのでダイスを止めます。");
                   m0 += $"<@{id}>" + "　:　" + "成功度" + j.ToString() + "をクリアしたのでダイスを止めます。" + "\n";
                   //j成功値に達するとfor文から脱出
                   if (j == int.Parse(ClearTimes))
@@ -143,8 +170,7 @@ namespace Dicebot
               }
               else
               {
-                m0 += $"<@{id}>" + "　:　" + "失敗：" + m1 + "\n";
-                //await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + "失敗：" + m1);
+                m0 += $"<@{id}>" + "　:　" + (i + 1).ToString() + "　:　" + "　　失敗　 ：" + m1 + "\n";
               }
             }
             await message.Channel.SendMessageAsync(m0);
@@ -157,9 +183,9 @@ namespace Dicebot
       {
         if (!(CommandContext.Substring(2) == ""))
         {
-          NumTimes = CommandContext.Substring(2, CommandContext.IndexOf("d") - 2);
           DiceNum = CommandContext.Substring(CommandContext.IndexOf("d") + 1);
-          await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + DiceNum + "面ダイスを" + NumTimes + "回振ります");
+          NumTimes = CommandContext.Substring(2, CommandContext.IndexOf("d") - 2);
+          await message.Channel.SendMessageAsync($"<@{id}>" + "　:　" + DiceNum + "面ダイスを" + NumTimes + "個振ります");
           List<int> ms = new List<int>();
           for (int i = 0; i < int.Parse(NumTimes); i++)
           {
