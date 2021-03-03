@@ -264,7 +264,7 @@ namespace Dicebot
             string m0 = "";
             m0 += $"<@{id}>" + "　:　" + DiceNum + "面ダイス" + Dicecount + "個を" + NumTimes + "回ふります。" + "成功値" + ClearNum + "の成功度" + ClearTimes + "です。\n";
             seed = Environment.TickCount;
-            for (int j = 0; j < int.Parse(NumTimes); j++) 
+            for (int j = 0; j < int.Parse(NumTimes); j++)
             {
               for (int i = 0; i < int.Parse(Dicecount); i++)
               {

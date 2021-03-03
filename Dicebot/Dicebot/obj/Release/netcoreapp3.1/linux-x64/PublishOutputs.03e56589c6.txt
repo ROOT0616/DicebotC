@@ -1,0 +1,15 @@
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\Dicebot
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\Dicebot.dll
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\Dicebot.deps.json
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\Dicebot.runtimeconfig.json
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\Dicebot.pdb
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\Discord.Net.Commands.dll
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\Discord.Net.Core.dll
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\Discord.Net.Rest.dll
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\Discord.Net.Webhook.dll
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\Discord.Net.WebSocket.dll
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\Microsoft.Extensions.DependencyInjection.dll
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\Newtonsoft.Json.dll
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\System.Interactive.Async.dll
+I:\Prg\C#\Dicebot\Dicebot\Dicebot\bin\Release\netcoreapp3.1\publish\System.Linq.Async.dll
