@@ -1,3 +1,3 @@
 # DicebotC
 Discord Bot
-https://discord.com/api/oauth2/authorize?client_id=814286584509104178&permissions=0&scope=bot
+https://discord.com/api/oauth2/authorize?client_id=813662442574970880&permissions=0&scope=bot
